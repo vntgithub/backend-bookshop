@@ -27,5 +27,16 @@ module.exports = {
     }
     res.json("Login successfully.");
   },
-  changePassword: async (req, res) => {},
+  changeInfo: async (req, res) => {
+    const filter = {username: req.body.username};
+    const update = {
+          password: Hash.generate(req.body.password),
+          urlimg: req.body.urlimg,
+          adress: req.body.adress
+    };
+    User.findOneAndUpdate(filter, update)
+        .then((user) => {
+          res.json("updated.")
+        })
+  }
 };
