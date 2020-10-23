@@ -2,12 +2,12 @@ const Book = require("../models/book.model");
 const { syncIndexes } = require("../models/book.model");
 
 module.exports = {
-  getAllBook: async (req, res) => {
+  getAll: async (req, res) => {
     Book.find()
       .then((book) => res.json(book))
       .catch((err) => res.status(400).json("ErrL " + err));
   },
-  getBooks: async (req, res) => {
+  getPage: async (req, res) => {
     const page = req.params.page;
     Book.find()
       .skip(page * 20)
@@ -20,7 +20,15 @@ module.exports = {
         res.status(200).json(books);
       });
   },
-  addBook: async (req, res) => {
+  getAllCategogy: async (req, res) => {
+    Book.find().select('categogy').distinct("categogy")
+    .then(categogy => {
+      console.log(categogy);
+      res.json(categogy);
+    })
+    .catch(err => res.json(err));
+  },
+  add: async (req, res) => {
     const newBook = await Book.create(req.body);
     res.json("Book added");
   },
@@ -51,3 +59,4 @@ module.exports = {
     Book.find({categogy: {$regex: ".*" + req.params.categogy + ".*"}})
   },
 };
+
