@@ -18,14 +18,17 @@ module.exports = {
   },
   login: async (req, res) => {
     const { username, password } = req.body;
-    const user = await User.find({
-      username: username,
-      password: Hash.generate(password),
+    User.find({username: username, password: password})
+    .then((user) => {
+      if(user.length > 0){
+        res.json({userData: user[0], checkUserExist: true});
+      }else{
+        res.json({checkUserExist: false});
+      }
+    })
+    .catch((err) => {
+      res.json(err)
     });
-    if (!user) {
-      res.json("user not found");
-    }
-    res.json("Login successfully.");
   },
   changeInfo: async (req, res) => {
     const filter = {username: req.body.username};

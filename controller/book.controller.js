@@ -45,7 +45,7 @@ module.exports = {
   findByName: async (req, res) => {
     Book.find({ name: { $regex: ".*" + req.params.name + ".*" } })
       .then((book) => res.json(book))
-      .catch((err) => res.status(400).json("ErrL " + err));
+      .catch((err) => res.status(400).json("Err " + err));
   },
   findByCategogy: async (req, res) => {
     Book.find({categogy: {$regex: ".*" + req.params.categogy + ".*"}})
