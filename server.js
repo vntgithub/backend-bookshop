@@ -1,6 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
+
 
 require("dotenv").config();
 
@@ -13,6 +16,8 @@ const commentRoute = require('./routes/comment.route');
 
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
+app.use(cookieParser());
 app.use("/api/book", bookRoutes);
 app.use("/api/user", usersRoute);
 app.use("/api/comment", commentRoute);
@@ -29,6 +34,7 @@ connection.once("open", () => {
 });
 
 app.get("/", (req, res) => {
+	console.log(req.cookies);
   res.send("Home");
 });
 app.listen(port, () => {
