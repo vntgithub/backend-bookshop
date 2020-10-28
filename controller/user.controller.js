@@ -1,6 +1,15 @@
 const User = require("../models/user.model");
 const md5 = require("md5");
 module.exports = {
+  checkUserExist: async (req, res) => {
+    await User.findOne({username: req.body.username})
+        .then((user) => {
+          if(user){
+            res.json({checkUserExist: true});
+          }
+          res.json({checkUserExist: false});
+        })
+  },
   create: async (req, res) => {
     const username = req.body.username;
     const password = md5(req.body.password);
@@ -19,16 +28,22 @@ module.exports = {
   login: async (req, res) => {
     const username = req.body.username;
     const password = md5(req.body.password);
-    console.log(username, password);
-    await User.findOne({username: username}).exec()
+    await User.findOne({username: username})
     .then((user) => {
-      consle.log(user);
-      // if(user.length > 0){
-      //   res.cookies("session_id", user[0]._id);
-      //   res.json({userData: user[0], exist: true});
-      // }else{
-      //   res.json({userExist: false});
-      // }
+      if(user){
+        if(user.password === password){
+          res.cookie('userId', user.id, {signed: true});
+          const userInfo = {
+            _id: user._id,
+            username: user.username,
+            urlimg: user.urlimg,
+            adress: user.adress
+          };
+          res.json({login: true, user: userInfo});
+        }else{
+          res.json({login: false});
+        }
+      }
     })
     .catch((err) => {
       res.json(err)
