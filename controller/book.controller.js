@@ -54,8 +54,10 @@ module.exports = {
       .then((book) => res.json(book))
       .catch((err) => res.status(400).json("Err " + err));
   },
-  findByCategogy: async (req, res) => {
-    Book.find({categogy: {$regex: ".*" + req.params.categogy + ".*"}})
+  findByCategogies: async (req, res) => {
+    Book.find({categogy: {$regex: ".*" + req.params.categogies + ".*"}})
+        .then(books => res.json(books))
+        .catch(err => console.log(err));
   },
 };
 

@@ -9,6 +9,7 @@ router.post("/addbook", bookController.add);
 router.put("/update/:id", bookController.update);
 router.delete("/delete/:id", bookController.delete);
 router.get("/findbyname/:name", bookController.findByName);
+router.get("/findbycategogies/:categogies", bookController.findByCategogies);
 module.exports = router;
 
 
