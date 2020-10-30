@@ -20,10 +20,9 @@ module.exports = {
         res.status(200).json(books);
       });
   },
-  getAllCategogy: async (req, res) => {
+  getAllCategogies: async (req, res) => {
     Book.find().select('categogy').distinct("categogy")
     .then(categogy => {
-      console.log(categogy);
       res.json(categogy);
     })
     .catch(err => res.json(err));
