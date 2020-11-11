@@ -15,13 +15,16 @@ module.exports = {
     const password = md5(req.body.password);
     const urlimg = req.body.urlimg;
     const adress = req.body.adress;
+    const name = req.body.name;
+    const phonenumber = req.body.phonenumber;
     const newUser = {
       username: username,
       password: password,
+      name: name,
       urlimg: urlimg,
       adress: adress,
+      phonenumber: phonenumber,
     };
-    console.log(req.body);
     const user = await User.create(newUser);
     res.json(user);
   },
@@ -32,12 +35,12 @@ module.exports = {
     .then((user) => {
       if(user){
         if(user.password === password){
-          res.cookie('userId', user.id, {signed: true});
           const userInfo = {
             _id: user._id,
-            username: user.username,
+            name: user.name,
             urlimg: user.urlimg,
-            adress: user.adress
+            adress: user.adress,
+            phonenumber: user.phonenumber
           };
           res.json({login: true, user: userInfo});
         }else{
@@ -60,5 +63,20 @@ module.exports = {
         .then((user) => {
           res.json("updated.")
         })
+  },
+  getById: async (req, res) => {
+    const id = req.params.id;
+    User.findById(id)
+        .then(user => {
+          const userInfo = {
+            _id: user._id,
+            name: user.name,
+            urlimg: user.urlimg,
+            adress: user.adress,
+            phonenumber: user.phonenumber
+          };
+          res.json({user: userInfo});
+        })
+        .catch(err => console.log(err))
   }
 };
