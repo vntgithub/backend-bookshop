@@ -20,6 +20,18 @@ module.exports = {
         res.status(200).json(books);
       });
   },
+  countByCategogies: async (req, res) => {
+    const categogy = req.params.categogy;
+    if(categogy === 'All books'){
+      Book.countDocuments({})
+          .then(n => res.json(n))
+          .catch(err => console.log(err));
+    }else{
+      Book.countDocuments({categogy: categogy})
+          .then(n => res.json(n))
+          .catch(err => console.log(err));
+    }
+  },
   getAllCategogies: async (req, res) => {
     Book.find().select('categogy').distinct("categogy")
     .then(categogy => {
@@ -58,6 +70,6 @@ module.exports = {
     Book.find({categogy: {$regex: ".*" + req.params.categogies + ".*"}})
         .then(books => res.json(books))
         .catch(err => console.log(err));
-  },
+  }
 };
 
