@@ -32,6 +32,14 @@ module.exports = {
           .catch(err => console.log(err));
     }
   },
+  countBySearchString: async (req, res) => {
+    Book.countDocuments(
+      {name: 
+        {$regex: new RegExp(".*" + req.params.searchString.toLowerCase() + ".*", "i")}
+    })
+    .then(n => res.json(n))
+    .catch(err => console.log(err));
+  },
   getAllCategogies: async (req, res) => {
     Book.find().select('categogy').distinct("categogy")
     .then(categogy => {
