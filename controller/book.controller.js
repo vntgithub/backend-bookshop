@@ -62,7 +62,7 @@ module.exports = {
       .catch((err) => res.status(400).json("Err " + err));
   },
   findByName: async (req, res) => {
-    Book.find({ name: { $regex: ".*" + req.params.name + ".*" } })
+    Book.find({ name: { $regex: new RegExp(".*" + req.params.name.toLowerCase() + ".*", "i") } })
       .then((book) => res.json(book))
       .catch((err) => res.status(400).json("Err " + err));
   },
