@@ -71,13 +71,19 @@ module.exports = {
   },
   findByName: async (req, res) => {
     Book.find({ name: { $regex: new RegExp(".*" + req.params.name.toLowerCase() + ".*", "i") } })
+      .skip(req.params.page * 20)
+      .limit(20)
       .then((book) => res.json(book))
       .catch((err) => res.status(400).json("Err " + err));
   },
   findByCategogies: async (req, res) => {
-    Book.find({categogy: {$regex: ".*" + req.params.categogies + ".*"}})
+    const categogies = req.params.categogies;
+    const page = req.params.page;
+    Book.find({categogy: {$regex: ".*" + categogies + ".*"}})
+        .skip(page * 20)
+        .limit(20)
         .then(books => res.json(books))
         .catch(err => console.log(err));
-  }
+  },
 };
 
