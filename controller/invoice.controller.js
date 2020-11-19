@@ -18,7 +18,8 @@ module.exports = {
   add: async (req, res) => {
     const invoice = {
       ...req.body,
-      date: Date.parse(req.body.date)
+      date: Date.parse(req.body.date),
+      state: false
     };
     const newInvoice = await Invoice.create(invoice);
     res.json("Invoice added");

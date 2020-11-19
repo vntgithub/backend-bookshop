@@ -6,6 +6,7 @@ module.exports = {
         .then((user) => {
           if(user){
             res.json({checkUserExist: true});
+            return;
           }
           res.json({checkUserExist: false});
         })
@@ -14,7 +15,7 @@ module.exports = {
     const username = req.body.username;
     const password = md5(req.body.password);
     const urlimg = req.body.urlimg;
-    const adress = req.body.adress;
+    const address = req.body.address;
     const name = req.body.name;
     const phonenumber = req.body.phonenumber;
     const newUser = {
@@ -22,7 +23,7 @@ module.exports = {
       password: password,
       name: name,
       urlimg: urlimg,
-      adress: adress,
+      address: address,
       phonenumber: phonenumber,
     };
     const user = await User.create(newUser);
@@ -39,7 +40,7 @@ module.exports = {
             _id: user._id,
             name: user.name,
             urlimg: user.urlimg,
-            adress: user.adress,
+            address: user.address,
             phonenumber: user.phonenumber
           };
           res.json({login: true, user: userInfo});
@@ -57,7 +58,7 @@ module.exports = {
     const update = {
           password: md5(req.body.password),
           urlimg: req.body.urlimg,
-          adress: req.body.adress
+          address: req.body.address
     };
     User.findOneAndUpdate(filter, update)
         .then((user) => {
@@ -72,7 +73,7 @@ module.exports = {
             _id: user._id,
             name: user.name,
             urlimg: user.urlimg,
-            adress: user.adress,
+            address: user.address,
             phonenumber: user.phonenumber
           };
           res.json({user: userInfo});
