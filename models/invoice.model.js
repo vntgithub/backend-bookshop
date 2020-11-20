@@ -8,6 +8,7 @@ const invoiceSchema = new Schema({
 	address: String,
 	date: Date,
 	cart: Array,
+	totalamount: Number,
 	state: Boolean
 });
 
