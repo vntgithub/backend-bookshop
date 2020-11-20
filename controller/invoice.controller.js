@@ -19,11 +19,32 @@ module.exports = {
     const invoice = {
       ...req.body,
       date: Date.parse(req.body.date),
-      state: false
+      state: 'Waitting'
     };
     const newInvoice = await Invoice.create(invoice);
     res.json("Invoice added");
   },
+  updateState: async (req, res) => {
+    const newState = req.body.state;
+    const id = req.body.id;
+    Invoice.findById(id)
+    .then(invoice => {
+      invoice.state = newState;
+      invoice.save();
+      res.json("updated.");
+    })
+    .catch(err => console.log(err));
+  },
+  getByState: async (req, res) => {
+    const state = req.params.state;
+    const id = req.params.id;
+    Invoice.find({userId: id})
+    .then(arrInvoice => {
+      const rs = arrInvoice.filter(invoice => invoice.state === state);
+      res.json(rs);
+    })
+    .catch(err => console.log(err))
+  }
   
 };
 

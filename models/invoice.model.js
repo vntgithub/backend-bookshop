@@ -9,7 +9,7 @@ const invoiceSchema = new Schema({
 	date: Date,
 	cart: Array,
 	totalamount: Number,
-	state: Boolean
+	state: String
 });
 
 const Invoice = mongoose.model('Invoice', invoiceSchema, 'invoices');
