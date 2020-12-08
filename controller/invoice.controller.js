@@ -10,6 +10,7 @@ module.exports = {
   getByUserId: async (req, res) => {
     const userId = req.params.userId
     Invoice.find({userId: userId})
+    .sort({date: -1})
     .then(invoices => {
       res.json(invoices);
     })
