@@ -2,10 +2,19 @@ const Invoice = require("../models/invoice.model");
 // const { syncIndexes } = require("../models/Invoice.model");
 
 module.exports = {
-  getAll: async (req, res) => {
-    Invoice.find()
-      .then((Invoice) => res.json(Invoice))
+  getPerPage: async (req, res) => {
+    const page = req.params.page
+    Invoice.find({})
+      .skip(page*20)
+      .limit(20)
+      .sort({date: -1})
+      .then((Invoices) => res.json(Invoices))
       .catch((err) => res.status(400).json("ErrL " + err));
+  },
+  count: async (req, res) => {
+    await Invoice.countDocuments({})
+                 .then(n => res.json(n))
+                 .catch(err => console.log(err));
   },
   getByUserId: async (req, res) => {
     const userId = req.params.userId

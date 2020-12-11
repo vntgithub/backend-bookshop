@@ -12,7 +12,7 @@ module.exports = {
     Book.find()
       .skip(page * 20)
       .limit(20)
-      .exec(function (err, books) {
+      .exec((err, books) => {
         if (err) {
           res.status(500).json(err);
           return;

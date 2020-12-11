@@ -1,6 +1,24 @@
 const User = require("../models/user.model");
 const md5 = require("md5");
 module.exports = {
+  getUserPerPage: async (req, res) => {
+    const page = req.params.page;
+    await User.find()
+              .skip(page*20)
+              .limit(20)
+              .exec((err, users) => {
+                if(err){
+                  res.status(500).json(err);
+                  return;
+                }
+                res.json(users);
+              })
+  },
+  countUsers: async(req, res) => {
+    await User.countDocuments({})
+              .then(n => res.json(n))
+              .catch(err => console.log(err))
+  },
   checkUserExist: async (req, res) => {
     await User.findOne({username: req.body.username})
         .then((user) => {
