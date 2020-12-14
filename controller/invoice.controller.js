@@ -54,6 +54,11 @@ module.exports = {
       res.json(rs);
     })
     .catch(err => console.log(err))
+  },
+  getById: async(req, res) => {
+    Invoice.findById(req.params.id)
+           .then(invoice => res.json(invoice))
+           .catch(err => console.log(err));
   }
   
 };

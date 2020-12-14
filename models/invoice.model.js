@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const invoiceSchema = new Schema({
 	userId: String,
 	name: String,
-	phone: String,
+	phonenumber: String,
 	address: String,
 	date: Date,
 	cart: Array,

@@ -97,5 +97,17 @@ module.exports = {
           res.json({user: userInfo});
         })
         .catch(err => console.log(err))
+  },
+  deleteById: async (req, res) => {
+    User.findOneAndDelete(req.params.id)
+        .then(() => res.json('Deleted!'))
+        .catch(err => console.log(err));
+  },
+  searchByUsername: async (req, res) => {
+    User.find(
+      {username: { $regex: new RegExp(".*" + req.params.username.toLowerCase() + ".*", "i") }}
+      )
+        .then(users => res.json(users))
+        .catch(err => console.log(err));
   }
 };
