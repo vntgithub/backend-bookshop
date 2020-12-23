@@ -11,6 +11,16 @@ module.exports = {
       .then((Invoices) => res.json(Invoices))
       .catch((err) => res.status(400).json("ErrL " + err));
   },
+  getPerPageByState: async(req, res) => {
+    const page = req.params.page;
+    const state = req.params.state;
+    Invoice.find({state: state})
+      .skip(page*20)
+      .limit(20)
+      .sort({date: -1})
+      .then((Invoices) => res.json(Invoices))
+      .catch((err) => res.status(400).json("ErrL " + err));
+  },
   count: async (req, res) => {
     await Invoice.countDocuments({})
                  .then(n => res.json(n))
