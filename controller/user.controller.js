@@ -72,13 +72,10 @@ module.exports = {
     });
   },
   update: async (req, res) => {
-    const filter = {username: req.body.username};
-    const update = {
-          password: md5(req.body.password),
-          urlimg: req.body.urlimg,
-          address: req.body.address
-    };
-    User.findOneAndUpdate(filter, update)
+    console.log(req.body);
+    const update = {...req.body}
+    delete update['_id'];
+    User.findByIdAndUpdate(req.body['_id'], update)
         .then((user) => {
           res.json("updated.")
         })
