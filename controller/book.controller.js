@@ -59,6 +59,7 @@ module.exports = {
         Book.author = req.body.author;
         Book.price = req.body.price;
         Book.urlimg = req.body.urlimg;
+        Book.categogy = req.body.categogy;
         Book.save();
       })
       .then(() => res.json("updated."))
