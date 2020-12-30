@@ -4,7 +4,7 @@ const Invoice = require("../models/invoice.model");
 module.exports = {
   getPerPage: async (req, res) => {
     const page = req.params.page
-    Invoice.find({})
+    await Invoice.find({})
       .skip(page*20)
       .limit(20)
       .sort({date: -1})
@@ -14,7 +14,7 @@ module.exports = {
   getPerPageByState: async(req, res) => {
     const page = req.params.page;
     const state = req.params.state;
-    Invoice.find({state: state})
+    await Invoice.find({state: state})
       .skip(page*20)
       .limit(20)
       .sort({date: -1})
@@ -28,7 +28,7 @@ module.exports = {
   },
   getByUserId: async (req, res) => {
     const userId = req.params.userId
-    Invoice.find({userId: userId})
+    await Invoice.find({userId: userId})
     .sort({date: -1})
     .then(invoices => {
       res.json(invoices);
@@ -47,7 +47,7 @@ module.exports = {
   updateState: async (req, res) => {
     const newState = req.body.state;
     const id = req.body.id;
-    Invoice.findById(id)
+    await Invoice.findById(id)
     .then(invoice => {
       invoice.state = newState;
       invoice.save();
@@ -58,7 +58,7 @@ module.exports = {
   getByState: async (req, res) => {
     const state = req.params.state;
     const id = req.params.id;
-    Invoice.find({userId: id})
+    await Invoice.find({userId: id})
     .then(arrInvoice => {
       const rs = arrInvoice.filter(invoice => invoice.state === state);
       res.json(rs);
@@ -66,9 +66,14 @@ module.exports = {
     .catch(err => console.log(err))
   },
   getById: async(req, res) => {
-    Invoice.findById(req.params.id)
+    await Invoice.findById(req.params.id)
            .then(invoice => res.json(invoice))
            .catch(err => console.log(err));
+  },
+  findByName: async(req, res) => {
+    await Invoice.find({name: { $regex: new RegExp(".*" + req.params.name.toLowerCase() + ".*", "i") }})
+    .then(invoices => res.json(invoices))
+    .catch(err => console.log(err))
   }
   
 };
