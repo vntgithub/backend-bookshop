@@ -18,18 +18,18 @@ module.exports = {
 				   .then(() => res.json('Done'))
 				   .catch(err => console.log(err));
 	},
-	update: async(req, res) => {
-		const username = req.body.username;
-		const newPassword = md5(req.body.password);
-
-		await Admin.findOne({username: username})
-				   .then(admin => {
-				   		admin.password = newPassword
-				   		admin.save();
-				   		res.json('Updated');
-				   })
-				   .catch(err => console.log(err));
-	},
+	update: async (req, res) => {
+	    let update = {};
+	    if(req.body.hasOwnProperty('password'))
+	      update = {...req.body, password: md5(req.body.password)}
+	    else
+	      update = {...req.body}
+	    delete update['_id'];
+	    Admin.findByIdAndUpdate(req.body['_id'], update)
+	        .then((user) => {
+	          res.json("updated.")
+	        })
+    },
 	login: async(req, res) => {
 		await Admin.findOne({...req.body, password: md5(req.body.password)})
 				   .then(admin => {

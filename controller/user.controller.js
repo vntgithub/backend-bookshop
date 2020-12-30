@@ -99,7 +99,7 @@ module.exports = {
         .catch(err => console.log(err))
   },
   deleteById: async (req, res) => {
-    User.findOneAndDelete(req.params.id)
+    User.findByIdAndDelete(req.params.id)
         .then(() => res.json('Deleted!'))
         .catch(err => console.log(err));
   },
