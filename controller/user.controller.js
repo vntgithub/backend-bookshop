@@ -72,8 +72,11 @@ module.exports = {
     });
   },
   update: async (req, res) => {
-    console.log(req.body);
-    const update = {...req.body}
+    let update = {};
+    if(req.body.hasOwnProperty('password'))
+      update = {...req.body, password: md5(req.body.password)}
+    else
+      update = {...req.body}
     delete update['_id'];
     User.findByIdAndUpdate(req.body['_id'], update)
         .then((user) => {
